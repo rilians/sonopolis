@@ -858,6 +858,11 @@ button {
   clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
   padding: 16px 18px 18px;
   pointer-events: auto;
+  /* never grow past the master ribbon — otherwise the dock swallows the
+     action buttons and they stop being clickable on short laptop screens */
+  max-height: calc(100vh - 96px - 200px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .panel__head {
@@ -1585,6 +1590,7 @@ button {
   .panel {
     top: 88px;
     width: 344px;
+    max-height: calc(100vh - 88px - 190px);
   }
   .viz {
     height: 140px;
@@ -1651,8 +1657,9 @@ button {
     top: auto;
     bottom: 176px;
     width: auto;
-    max-height: none;
-    overflow: visible;
+    max-height: calc(100vh - 176px - 56px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .viz {
     height: 104px;
@@ -1779,6 +1786,59 @@ button {
     gap: 6px;
     padding: 4px 8px 5px;
     font-size: 7px;
+  }
+}
+
+/* ---------- short laptops (1366x768 and friends) ---------- */
+@media (max-height: 820px) and (min-width: 821px) {
+  .panel {
+    top: 74px;
+    width: 336px;
+    padding: 12px 15px 12px;
+    max-height: calc(100vh - 74px - 186px);
+    overflow-y: auto;
+  }
+  .panel__title {
+    font-size: 25px;
+  }
+  .viz {
+    height: 90px;
+  }
+  .panel__desc {
+    margin-top: 9px;
+    font-size: 13px;
+  }
+  .sig-strip {
+    margin-top: 9px;
+    padding: 6px 0;
+  }
+  .sig-strip__bars {
+    height: 24px;
+  }
+  .sig-strip__foot {
+    margin-top: 6px;
+  }
+  .meta-grid {
+    margin-top: 9px;
+  }
+  .meta-grid > div {
+    padding: 6px 7px 6px;
+  }
+  .panel__actions {
+    margin-top: 8px;
+  }
+  .volume {
+    margin-top: 6px;
+  }
+}
+
+/* the copy is the first thing to go when the card has to shrink further */
+@media (max-height: 748px) and (min-width: 821px) {
+  .panel__desc {
+    display: none;
+  }
+  .viz {
+    height: 86px;
   }
 }
 

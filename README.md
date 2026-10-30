@@ -277,6 +277,7 @@ the card, the analyser, the audio graph and the log all follow from it.
 | ≥ 1081 px | full HUD: district rail, dial bottom-left, card on the right |
 | ≤ 1080 px | rail hidden, dial scaled, narrower card |
 | ≤ 900 px tall | rail tightened, ribbon and plates compressed |
+| ≤ 820 px tall | card is bounded above the master ribbon and the copy is dropped below 748 px — the action buttons can never end up under the dock (the 1366×768 laptop case) |
 | ≤ 820 px wide | card becomes a bottom sheet that grows upward, dial moves under the brand, beacons label themselves below the dot |
 | ≤ 520 px wide | meta grid and description hidden, ribbon reduced to 38 px, dock captions hidden |
 | ≤ 640 px tall | landscape fallback: scrollable card anchored above the dock, dial hidden |
@@ -293,6 +294,7 @@ Scripts in `tools/` need Playwright and a running dev server on port 5173:
 ```bash
 node tools/shot.mjs http://localhost:5173/ out.png [selector]   # screenshot
 node tools/shots.mjs                                           # regenerate docs/ gallery
+node tools/livecheck.mjs https://sonopolis-two.vercel.app      # smoke-test a deployment (3 viewports)
 node tools/audiotest.mjs                                       # per-channel RMS / dB report
 npx playwright install chromium                                # one-time browser install
 ```
