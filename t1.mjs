@@ -1,0 +1,26 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage({ viewport: { width: 1512, height: 950 } });
+const errs=[]; p.on('pageerror',e=>errs.push(e.message)); p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+await p.goto('http://localhost:5173/');
+await p.waitForTimeout(1000);
+await p.click('.boot__btn');
+await p.waitForTimeout(1500);
+await p.click('.btn-listen');
+await p.waitForTimeout(1200);
+await p.click('.tour');
+await p.waitForTimeout(1200);
+console.log('tour on:', await p.locator('.tour').getAttribute('class'));
+const before = await p.locator('.read-block__v').first().textContent();
+await p.waitForTimeout(9200);
+const after = await p.locator('.read-block__v').first().textContent();
+console.log('channel moved:', before, '->', after);
+await p.screenshot({ path: '/tmp/t_tour.png', timeout: 60000 });
+// spectrum ghost
+await p.click('.tour');
+await p.waitForTimeout(600);
+await p.click('.modes button:nth-child(2)');
+await p.waitForTimeout(1500);
+await p.screenshot({ path: '/tmp/t_spec.png', clip: { x: 1108, y: 90, width: 390, height: 620 }, timeout: 60000 });
+console.log('errors', errs.slice(0,4));
+await b.close();

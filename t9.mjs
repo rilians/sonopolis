@@ -1,0 +1,23 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage({ viewport: { width: 1512, height: 950 } });
+await p.goto('http://localhost:5173/');
+await p.waitForTimeout(1000);
+await p.click('.boot__btn');
+await p.waitForTimeout(1600);
+const box = await (await p.$('.dial__svg')).boundingBox();
+await p.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.06);
+await p.mouse.down();
+await p.mouse.move(box.x + box.width * 0.84, box.y + box.height * 0.40, { steps: 12 });
+await p.mouse.up();
+await p.waitForTimeout(1500);
+await p.screenshot({ path: '/tmp/i_all.png', clip: { x: 100, y: 100, width: 300, height: 200 }, timeout: 60000 });
+await p.addStyleTag({ content: '.map-haze,.map-vignette,.map-scan,.map-grid{display:none!important}' });
+await p.waitForTimeout(800);
+await p.screenshot({ path: '/tmp/i_none.png', clip: { x: 100, y: 100, width: 300, height: 200 }, timeout: 60000 });
+console.log(await p.evaluate(() => {
+  const c = document.querySelector('.maplibregl-canvas');
+  const g = c.getContext('webgl2') || c.getContext('webgl');
+  return { alpha: g ? g.getContextAttributes().alpha : 'n/a', cssBg: getComputedStyle(document.querySelector('.map-canvas')).backgroundColor };
+}));
+await b.close();

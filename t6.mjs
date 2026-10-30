@@ -1,0 +1,22 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ args: ['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage({ viewport: { width: 1512, height: 950 } });
+await p.goto('http://localhost:5173/');
+await p.waitForTimeout(1100);
+await p.click('.boot__btn');
+await p.waitForTimeout(1500);
+await p.click('.btn-listen');
+await p.waitForTimeout(2500);
+await p.screenshot({ path: '/tmp/h_night.png', timeout: 60000 });
+await p.keyboard.press('n');            // noon
+await p.waitForTimeout(2600);
+await p.screenshot({ path: '/tmp/h_noon.png', timeout: 60000 });
+const box = await (await p.$('.dial__svg')).boundingBox();
+await p.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.06);
+await p.mouse.down();
+await p.mouse.move(box.x + box.width * 0.84, box.y + box.height * 0.40, { steps: 14 });
+await p.mouse.up();
+await p.waitForTimeout(2600);
+console.log('hour', await p.locator('.dial__time').textContent());
+await p.screenshot({ path: '/tmp/h_dusk.png', timeout: 60000 });
+await b.close();
