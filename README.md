@@ -10,6 +10,7 @@ no image assets, no audio samples, no network requests.
 </p>
 
 <p align="center">
+  <a href="https://sonopolis-two.vercel.app"><img alt="Live demo" src="https://img.shields.io/badge/live-sonopolis--two.vercel.app-000000?logo=vercel&logoColor=white"></a>
   <a href="#quick-start"><img alt="Vite 8" src="https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white"></a>
   <a href="#quick-start"><img alt="React 19" src="https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white"></a>
   <a href="#the-map"><img alt="MapLibre GL" src="https://img.shields.io/badge/MapLibre_GL-6-295daa"></a>
@@ -115,6 +116,8 @@ from GeoJSON, and all ten channels are Web Audio graphs scheduled in the browser
 ---
 
 ## Quick start
+
+**Live:** <https://sonopolis-two.vercel.app> — best with headphones, desktop first.
 
 ```bash
 npm install
